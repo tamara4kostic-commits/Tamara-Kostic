@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamara Kostić — Tehničar elektronike</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg: #f7f5f0;
+    --panel: #ffffff;
+    --grid-line: #e4ded2;
+    --grid-line-soft: #ece7db;
+    --copper: #c06a35;
+    --copper-soft: #c9895a;
+    --copper-dim: #e3c4a6;
+    --paper: #2b2723;
+    --paper-dim: #4d473e;
+    --muted: #8c8474;
+    --muted-2: #a89f8c;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--paper);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.65;
+    background-image:
+      linear-gradient(var(--grid-line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-soft) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+  }
+
+  .mono{ font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  a{ color: var(--copper); text-decoration: none; border-bottom: 1px solid var(--copper-dim); }
+  a:hover{ border-bottom-color: var(--copper); }
+
+  .wrap{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 32px 140px;
+  }
+
+  /* ---------- HERO ---------- */
+
+  .hero{
+    padding: 104px 0 64px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 44px;
+  }
+
+  .hero .hero-text{ flex: 1; min-width: 0; }
+
+  .hero .portrait{
+    flex-shrink: 0;
+    width: 148px;
+    height: 148px;
+    position: relative;
+  }
+  .hero .portrait img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 6px;
+    border: 1px solid var(--grid-line);
+    display: block;
+  }
+  .hero .portrait::before{
+    content:"";
+    position:absolute;
+    top: -8px; left: -8px;
+    width: 14px; height: 14px;
+    border-top: 1.5px solid var(--copper);
+    border-left: 1.5px solid var(--copper);
+  }
+  .hero .portrait::after{
+    content:"";
+    position:absolute;
+    bottom: -8px; right: -8px;
+    width: 14px; height: 14px;
+    border-bottom: 1.5px solid var(--copper);
+    border-right: 1.5px solid var(--copper);
+  }
+
+  @media (max-width: 600px){
+    .hero{ flex-direction: column-reverse; align-items: flex-start; gap: 24px; }
+    .hero .portrait{ width: 108px; height: 108px; }
+  }
+
+  .hero .idline{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--copper);
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero .idline .node{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--copper);
+    box-shadow: 0 0 0 3px rgba(217,138,74,0.15);
+    flex-shrink: 0;
+  }
+  .hero .idline .trace{
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--copper-dim), transparent);
+  }
+
+  h1{
+    font-size: clamp(38px, 6vw, 54px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    color: var(--paper);
+  }
+
+  .role{
+    font-size: 19px;
+    color: var(--paper-dim);
+    font-style: italic;
+    margin: 0 0 28px;
+    max-width: 46ch;
+  }
+
+  .meta-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .meta-row span{ white-space: nowrap; }
+  .meta-row b{ color: var(--paper-dim); font-weight: 500; }
+
+  /* ---------- SECTION HEADERS ---------- */
+
+  section{ padding: 64px 0; border-top: 1px solid var(--grid-line); }
+  section:first-of-type{ border-top: 1px solid var(--grid-line); }
+
+  .sec-head{
+    display:flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+  .sec-head .tag{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted-2);
+    white-space: nowrap;
+  }
+  .sec-head h2{
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--paper);
+  }
+  .sec-head .rule{
+    flex:1;
+    height:1px;
+    background: var(--grid-line);
+  }
+
+  p{ color: var(--paper-dim); margin: 0 0 16px; max-width: 62ch; }
+  p:last-child{ margin-bottom: 0; }
+
+  /* ---------- EXPERIENCE / TRACE TIMELINE ---------- */
+
+  .timeline{
+    position: relative;
+    padding-left: 26px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left: 4px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: linear-gradient(var(--copper-dim), var(--grid-line) 90%);
+  }
+
+  .job{
+    position: relative;
+    padding-bottom: 38px;
+  }
+  .job:last-child{ padding-bottom: 0; }
+
+  .job::before{
+    content:"";
+    position: absolute;
+    left: -26px; top: 5px;
+    width: 10px; height: 10px;
+    background: var(--bg);
+    border: 2px solid var(--copper);
+    border-radius: 2px;
+  }
+  .job.active::before{
+    background: var(--copper);
+    box-shadow: 0 0 0 4px rgba(217,138,74,0.18);
+  }
+
+  .job-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-bottom: 4px;
+  }
+  .job-head h3{
+    font-size: 17px;
+    margin: 0;
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .job-head .years{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--copper);
+    white-space: nowrap;
+  }
+  .job .place{
+    font-size: 14.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  .job ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .job li{
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 7px;
+    color: var(--paper-dim);
+    font-size: 15px;
+  }
+  .job li::before{
+    content:"–";
+    position: absolute;
+    left: 0;
+    color: var(--muted-2);
+  }
+
+  .badge{
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--copper);
+    background: #fbf1e8;
+    border: 1px solid var(--copper-dim);
+    padding: 3px 9px;
+    border-radius: 3px;
+    margin-top: 10px;
+  }
+
+  /* ---------- SKILLS ---------- */
+
+  .skills-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .skill{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--grid-line);
+    font-size: 14.5px;
+    color: var(--paper-dim);
+  }
+  .skill .pin{
+    width: 8px; height: 8px;
+    margin-top: 5px;
+    flex-shrink:0;
+    background: var(--panel);
+    border: 1.5px solid var(--copper-soft);
+    border-radius: 50%;
+  }
+
+  @media (max-width: 560px){
+    .skills-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- EDUCATION ---------- */
+
+  .edu-item{
+    display:flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--grid-line);
+  }
+  .edu-item:last-child{ border-bottom: none; }
+  .edu-item .what h3{
+    margin: 0 0 3px;
+    font-size: 16px;
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .edu-item .what .school{
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .edu-item .when{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--copper);
+    white-space: nowrap;
+  }
+
+  /* ---------- FOOTER ---------- */
+
+  footer{
+    margin-top: 52px;
+    padding-top: 32px;
+    border-top: 1px solid var(--grid-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted-2);
+  }
+
+  ::selection{ background: var(--copper-dim); color: var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="idline">
+        <span class="node"></span>
+        <span>tehničar elektronike · embedded C</span>
+        <span class="trace"></span>
+      </div>
+      <h1>Tamara Kostić</h1>
+      <p class="role">Studentkinja biomedicinskog inženjerstva sa praktičnim iskustvom u hardverskoj elektronici i embedded programiranju, stečenim kroz višegodišnji rad na Eurobot takmičenju.</p>
+      <div class="meta-row">
+        <span><b>Novi Sad</b>, Srbija</span>
+        <span>FTN — <b>Biomedicinsko inženjerstvo</b></span>
+        <span><b>2021</b> – danas</span>
+      </div>
+    </div>
+    <div class="portrait">
+      <img src="tamara.jpeg" alt="Tamara">
+    </div>
+  </div>
+
+  <section id="o-meni">
+    <div class="sec-head">
+      <span class="tag mono">o meni</span>
+      <div class="rule"></div>
+    </div>
+    <p>Studentkinja sa izraženim interesovanjem i praktičnim iskustvom u oblasti hardverske elektronike i embedded programiranja, stečenim kroz višegodišnji rad na Eurobot takmičenju. Tokom rada na realnim robotskim sistemima razvila sam veštine u lemljenju SMD i THT komponenti, izradi i krimpovanju kablova, ožičavanju, testiranju i dijagnostici elektronskih sklopova, kao i pisanju C koda za upravljanje mikrokontrolerima i integraciju kompleksnih sistema.</p>
+    <p>Odlikuju me preciznost, odgovornost i sistematičan pristup rešavanju tehničkih problema, kao i sposobnost rada pod pritiskom u timskom okruženju. Posebno sam motivisana za dalje usavršavanje u oblasti elektronike, embedded sistema i programiranja kroz praktične projekte i industrijsku primenu znanja.</p>
+  </section>
+
+  <section id="iskustva">
+    <div class="sec-head">
+      <span class="tag mono">iskustva</span>
+      <div class="rule"></div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-head">
+          <h3>Eurobot 2025</h3>
+          <span class="years">2024 – 2025</span>
+        </div>
+        <div class="place">Tehničar elektronike — FEP Team Serbia</div>
+        <ul>
+          <li>Članica FEP tima na takmičenju Eurobot 2025</li>
+          <li>Lemljenje SMD i THT komponenti (0402–1210)</li>
+          <li>Krimpovanje konektora i izrada kablovskih snopova</li>
+          <li>Ožičavanje i testiranje elektronskog sistema robota</li>
+          <li>Pisanje osnovnog C koda za upravljanje senzorima i aktuatorima</li>
+        </ul>
+        <span class="badge">1. mesto u Srbiji</span>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <h3>Eurobot 2026</h3>
+          <span class="years">2025 – 2026</span>
+        </div>
+        <div class="place">Tehničar elektronike — FEP Team Serbia</div>
+        <ul>
+          <li>Razvoj i integracija elektronskih sistema robota</li>
+          <li>Lemljenje SMD i THT komponenti</li>
+          <li>Krimpovanje i kabliranje robota</li>
+          <li>Testiranje i dijagnostika elektronskih sklopova</li>
+          <li>Doprinos u pisanju i debagovanju C koda za kontrolu robota</li>
+        </ul>
+        <span class="badge">6. mesto na Eurobotu</span>
+      </div>
+
+      <div class="job active">
+        <div class="job-head">
+          <h3>Eurobot 2027</h3>
+          <span class="years">2026 – danas</span>
+        </div>
+        <div class="place">Tehničar elektronike — ZEMO Robotics</div>
+        <ul>
+          <li>Trenutno angažovana na razvoju robota za Eurobot 2027</li>
+          <li>Lemljenje SMD i THT komponenti (0402–1210)</li>
+          <li>Krimpovanje konektora i izrada kablovskih snopova</li>
+          <li>Ožičavanje, testiranje i dijagnostika elektronskih sistema</li>
+          <li>Rad na C programiranju mikrokontrolera za upravljanje robotom</li>
+          <li>Rad sa mernom opremom i tehničkom dokumentacijom</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="vjestine">
+    <div class="sec-head">
+      <span class="tag mono">vještine</span>
+      <div class="rule"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill"><span class="pin"></span>Poznavanje C jezika (embedded C)</div>
+      <div class="skill"><span class="pin"></span>Poznavanje Python jezika</div>
+      <div class="skill"><span class="pin"></span>Poznavanje Julia jezika</div>
+      <div class="skill"><span class="pin"></span>Poznavanje LabVIEW softvera</div>
+      <div class="skill"><span class="pin"></span>Rad u MATLAB-u</div>
+      <div class="skill"><span class="pin"></span>Osciloskop, multimetar, logic analyzer</div>
+      <div class="skill"><span class="pin"></span>Snalaženje u laboratorijskom okruženju</div>
+      <div class="skill"><span class="pin"></span>Rad u timu, multidisciplinarni projekti</div>
+      <div class="skill"><span class="pin"></span>Engleski jezik (tehnički i komunikacioni)</div>
+      <div class="skill"><span class="pin"></span>Vozačka dozvola B kategorije</div>
+    </div>
+  </section>
+
+  <section id="obrazovanje">
+    <div class="sec-head">
+      <span class="tag mono">obrazovanje</span>
+      <div class="rule"></div>
+    </div>
+    <div class="edu-item">
+      <div class="what">
+        <h3>Biomedicinsko inženjerstvo</h3>
+        <div class="school">Fakultet tehničkih nauka, Novi Sad</div>
+      </div>
+      <div class="when">2021 – danas</div>
+    </div>
+    <div class="edu-item">
+      <div class="what">
+        <h3>Srednja škola</h3>
+        <div class="school">Mihailo Petrović Alas-Ugljević</div>
+      </div>
+      <div class="when">2017 – 2021</div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Tamara Kostić</span>
+    <span>Novi Sad, Srbija · [email] · [telefon]</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
